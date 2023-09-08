@@ -15,3 +15,11 @@ for typ in df['分类名称'].unique():
     result[f'W_{typ}']=df0['销售单价(元/千克)_否']/df0['批发价格(元/千克)_否']-1
     
 result.to_csv('./export/q2_3往期0701-0707的W分析(未打折).csv')
+
+result=pd.DataFrame(columns=['Q_水生根茎类', 'Q_花叶类', 'Q_花菜类', 'Q_茄类', 'Q_辣椒类', 'Q_食用菌'])
+
+for typ in df['分类名称'].unique():
+    df0=df[df['分类名称']==typ]
+    result[f'Q_{typ}']=df0['销量(千克)_否']
+    
+result.to_csv('./export/q2_3往期0701-0707的Q分析(未打折).csv')
