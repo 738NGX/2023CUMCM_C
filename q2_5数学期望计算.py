@@ -3,6 +3,12 @@ from sympy import *
 
 df=pd.read_csv('./export/q2_2往期品类销量定价关系汇总.csv')
 
+df['日期'] = pd.to_datetime(df['日期'])
+mask = (
+     ((df['日期'] >= '2022-07-01') & (df['日期'] <= '2023-06-30'))
+    )
+#df = df.loc[mask]
+
 result=pd.DataFrame(columns=['分类名称','μ','σ','E(C)','E(C^2)','E(C^3)'])
 
 for typ in df['分类名称'].unique():
