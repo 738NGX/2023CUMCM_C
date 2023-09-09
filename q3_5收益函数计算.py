@@ -1,13 +1,13 @@
 import pandas as pd
 from sympy import *
-df=pd.read_csv('./export/q2_5品类数学期望和多项式回归数据总表.csv',index_col=0)
+df=pd.read_csv('./export/q3_4数学期望和多项式回归数据总表.csv',index_col=0)
+waste_data=pd.read_excel('./dataset/附件4.xlsx',sheet_name='Sheet1',index_col='单品名称')['损耗率(%)']
 
-result=pd.DataFrame(columns=['分类名称','R_max','W','P','Q','S(Q)'])
-waste_data=pd.read_excel('./dataset/附件4.xlsx',sheet_name='平均损耗率(%)_小分类编码_不同值',index_col='分类名称')['平均损耗率(%)_小分类编码_不同值']
+result=pd.DataFrame(columns=['单品名称','R_max','W','P','Q','S(Q)'])
 
-for typ in df['分类名称'].values:
+for typ in df['单品名称'].values:
     # 导入常数
-    df0=df[df['分类名称']==typ].copy()
+    df0=df[df['单品名称']==typ].copy()
     ec,ec2,ec3=df0['E(C)'].values[0],df0['E(C^2)'].values[0],df0['E(C^3)'].values[0]
     k1,k2,k3=df0['k1'].values[0],df0['k2'].values[0],df0['k3'].values[0]
     waste=waste_data[typ]/100
@@ -28,11 +28,11 @@ for typ in df['分类名称'].values:
     else:
         r_max=r.subs(w,w_max)
     p=ec*(1+w_max)
-    q=k1*p**2+k2*p+k3
+    q=(k1*p**2+k2*p+k3)
     sq=q/(1-waste)
     
     # 打表
-    row={'分类名称':typ,'R_max':r_max,'W':w_max,'P':p,'Q':q,'S(Q)':sq}
+    row={'单品名称':typ,'R_max':r_max,'W':w_max,'P':p,'Q':q,'S(Q)':sq}
     result=pd.concat([result,pd.DataFrame(row,index=[0])],axis=0,ignore_index=True)
 
-result.to_csv('./export/q2_6问题二最终结论.csv')
+result.to_csv('./export/q3_5问题三利润总表(未筛选单品).csv')
